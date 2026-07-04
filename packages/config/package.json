@@ -1,0 +1,17 @@
+{
+  "name": "@qazaqmura/config",
+  "version": "0.0.0",
+  "private": true,
+  "exports": {
+    "./eslint-preset": "./eslint-preset.js",
+    "./tsconfig.base.json": "./tsconfig.base.json"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.17.0",
+    "@typescript-eslint/eslint-plugin": "^8.18.2",
+    "@typescript-eslint/parser": "^8.18.2",
+    "eslint": "^9.17.0",
+    "eslint-config-prettier": "^9.1.0",
+    "typescript": "^5.7.2"
+  }
+}

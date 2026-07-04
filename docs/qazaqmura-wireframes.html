@@ -1,0 +1,1460 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Qazaq Mūra — Wireframes v1.0</title>
+<style>
+  :root{
+    --ink:#111; --line:#111; --mid:#8a8a8a; --faint:#c9c9c9; --panel:#f4f4f4; --paper:#ffffff;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:#e9e9e9;font-family:'Helvetica Neue',Arial,sans-serif;color:var(--ink);}
+  .app{display:flex;height:100vh;}
+
+  /* ---- SIDEBAR ---- */
+  .sidebar{width:280px;min-width:280px;background:#fafafa;border-right:1px solid #ccc;overflow-y:auto;padding:16px 0 60px;}
+  .brand{padding:0 16px 14px;border-bottom:1px solid #ddd;margin-bottom:8px;}
+  .brand h1{font-size:14px;margin:0 0 2px;letter-spacing:.04em;text-transform:uppercase;}
+  .brand p{font-size:10px;color:var(--mid);margin:0;}
+  .group-title{font-size:9px;text-transform:uppercase;letter-spacing:.08em;color:var(--mid);padding:14px 16px 4px;}
+  .nav-item{display:flex;align-items:center;gap:8px;padding:6px 16px;font-size:12px;cursor:pointer;color:#333;border-left:3px solid transparent;}
+  .nav-item:hover{background:#eee;}
+  .nav-item.active{background:#e4e4e4;border-left-color:#111;font-weight:600;}
+  .nav-item .n{width:16px;height:16px;border:1px solid #999;border-radius:50%;font-size:8px;display:flex;align-items:center;justify-content:center;color:#777;flex:none;}
+  .badge{font-size:8px;border:1px solid #aaa;border-radius:3px;padding:1px 4px;color:#888;margin-left:auto;text-transform:uppercase;}
+
+  /* ---- MAIN ---- */
+  .main{flex:1;overflow-y:auto;padding:28px 40px 80px;}
+  .crumbs{font-size:10px;color:var(--mid);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px;}
+  .screen-title{font-size:20px;font-weight:700;margin:0 0 4px;}
+  .screen-desc{font-size:12.5px;color:#555;max-width:760px;line-height:1.5;margin-bottom:22px;}
+  .frame-wrap{display:flex;justify-content:flex-start;}
+  .frame-shell{background:#dcdcdc;padding:22px;border-radius:6px;display:inline-block;}
+  .frame-shell .fname{font-size:9px;color:#888;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;}
+
+  .wf-frame{position:relative;background:var(--paper);border:1.5px solid var(--line);overflow:hidden;}
+  .wf-frame.desktop{width:1040px;height:660px;}
+  .wf-frame.mobile{width:340px;height:700px;}
+
+  .wf-el{position:absolute;box-sizing:border-box;overflow:hidden;}
+  .tag{position:absolute;top:-1px;left:-1px;background:#111;color:#fff;font-size:7.5px;padding:1px 4px;letter-spacing:.03em;text-transform:uppercase;line-height:1.4;z-index:5;white-space:nowrap;}
+  .wf-bar{border:1.3px solid var(--line);background:#fff;}
+  .wf-panel{border:1.3px solid var(--line);background:var(--panel);}
+  .wf-btn{border:1.3px solid var(--line);background:#fff;display:flex;align-items:center;justify-content:center;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.03em;text-align:center;padding:2px 4px;}
+  .wf-btn.primary{background:#111;color:#fff;border-color:#111;}
+  .wf-btn.ghost{border-style:dashed;color:#555;}
+  .wf-input{border:1.3px solid var(--line);background:#fff;display:flex;align-items:center;padding:0 8px;font-size:10.5px;color:#999;}
+  .wf-pill{border:1px solid var(--line);border-radius:20px;background:#fff;display:flex;align-items:center;justify-content:center;font-size:9px;padding:0 6px;white-space:nowrap;}
+  .wf-icon{border:1.3px solid var(--line);border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-size:7.5px;font-weight:700;text-align:center;line-height:1.1;}
+  .wf-img{border:1.3px solid var(--line);background-image:repeating-linear-gradient(45deg,#dcdcdc,#dcdcdc 5px,#fff 5px,#fff 10px);display:flex;align-items:center;justify-content:center;font-size:9px;color:#999;text-transform:uppercase;letter-spacing:.05em;}
+  .wf-text{padding:2px 2px;display:flex;flex-direction:column;justify-content:center;gap:4px;}
+  .wf-text .ln{height:6px;background:#d5d5d5;border-radius:1px;}
+  .wf-text .ln.title{height:9px;background:#9c9c9c;}
+  .wf-divider{border-top:1px dashed #bbb;}
+  .wf-check{border:1.3px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:9px;}
+  .wf-star{border:1px solid var(--line);border-radius:3px;display:flex;align-items:center;justify-content:center;font-size:8px;}
+  .wf-overlay{position:absolute;inset:0;background:rgba(0,0,0,0.35);}
+  .wf-modal{position:absolute;background:#fff;border:1.5px solid var(--line);}
+
+  .flow{display:flex;align-items:flex-start;gap:6px;flex-wrap:wrap;}
+  .flow-step{width:190px;}
+  .flow-step .mini{width:190px;height:130px;position:relative;background:#fff;border:1.3px solid var(--line);overflow:hidden;}
+  .flow-step .cap{font-size:10px;font-weight:700;margin:8px 0 2px;text-transform:uppercase;letter-spacing:.02em;}
+  .flow-step .sub{font-size:9.5px;color:#777;line-height:1.35;}
+  .flow-arrow{align-self:center;font-size:20px;color:#999;padding:0 2px;margin-top:55px;}
+
+  ::-webkit-scrollbar{width:9px;height:9px;}
+  ::-webkit-scrollbar-thumb{background:#c6c6c6;border-radius:5px;}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="sidebar" id="sidebar">
+    <div class="brand">
+      <h1>Qazaq Mūra</h1>
+      <p>Wireframes · v1.0 · grayscale, no visual design</p>
+    </div>
+    <div id="navtree"></div>
+  </div>
+  <div class="main" id="main"></div>
+</div>
+
+<script>
+/* ============================================================
+   MICRO WIREFRAME ENGINE
+   Coordinates are % of the frame (desktop 1040x660 / mobile 340x700)
+   ============================================================ */
+function E(type,x,y,w,h,label,opts){
+  opts=opts||{};
+  return Object.assign({type:type,x:x,y:y,w:w,h:h,label:label||''},opts);
+}
+function renderEl(e){
+  var cls='wf-el wf-'+e.type+(e.primary?' primary':'')+(e.ghost?' ghost':'');
+  var style='left:'+e.x+'%;top:'+e.y+'%;width:'+e.w+'%;height:'+e.h+'%;'+(e.style||'');
+  var inner='';
+  if(e.type==='text'){
+    var lines=e.lines||3; var arr=[];
+    for(var i=0;i<lines;i++){
+      var w2 = i===lines-1 ? '55%' : (i===0 && e.title? '85%':'92%');
+      arr.push('<div class="ln'+(i===0&&e.title?' title':'')+'" style="width:'+w2+'"></div>');
+    }
+    inner='<div class="wf-text" style="height:100%">'+arr.join('')+'</div>';
+  } else if(e.type==='img'){
+    inner=(e.caption||'IMG');
+  } else if(e.type==='btn'||e.type==='pill'||e.type==='input'||e.type==='check'||e.type==='star'){
+    inner=e.caption||'';
+  } else if(e.type==='icon'){
+    inner=e.caption||'•';
+  } else if(e.type==='bar'||e.type==='panel'){
+    inner='';
+  } else if(e.type==='raw'){
+    inner=e.html||'';
+  }
+  var tag = e.label ? '<span class="tag">'+e.label+'</span>' : '';
+  return '<div class="'+cls+'" style="'+style+'">'+tag+inner+'</div>';
+}
+function frameHtml(kind, elements){
+  return '<div class="wf-frame '+kind+'">'+elements.map(renderEl).join('')+'</div>';
+}
+
+/* ---------- reusable composite generators ---------- */
+function navDesktop(active, opts){
+  opts=opts||{};
+  var items=[
+    E('text',3,2.5,9,5,'Logo',{lines:1,title:true}),
+    E('input',14,3,30,4.2,'Global search','Поиск: традиция, город, мастер…'),
+    E('pill',46,3.4,7,3.4,'',{caption:'Традиции'}),
+    E('pill',54,3.4,6,3.4,'',{caption:'Карта'}),
+    E('pill',61,3.4,7,3.4,'',{caption:'Мастера'}),
+    E('pill',69,3.4,10,3.4,'',{caption:'Календарь'}),
+    E('pill',80,3.4,6,3.4,'',{caption:'Дети'}),
+    E('icon',88,2.6,4,5,'Язык',{caption:'KK/RU/EN'}),
+    E('icon',93,2.6,4,5,'Тема',{caption:'☾/☀'}),
+    E('btn',97.5-9,9.9,0,0) // placeholder removed below
+  ];
+  items.pop();
+  items.push(E('btn',88,9.6,9,3.6,'Профиль/вход',{caption:'Войти'}));
+  items.push(E('divider',0,12.6,100,0.1));
+  return items;
+}
+function tabBarMobile(active){
+  var labels=['Discover','Карта','Гид','Паспорт','Профиль'];
+  var out=[E('divider',0,93.5,100,0.1)];
+  for(var i=0;i<5;i++){
+    out.push(E('icon',3+i*19,95,10,4,'',{caption:labels[i]}));
+  }
+  return out;
+}
+function mobileTop(title, opts){
+  opts=opts||{};
+  return [
+    E('icon',3,2,9,4.3,'Назад',{caption:opts.back===false?'≡':'←'}),
+    E('text',15,2.6,60,3.6,'',{lines:1,title:true}),
+    E('icon',88,2,9,4.3,'Действие',{caption:opts.action||'⚙'}),
+    E('divider',0,7.5,100,0.1)
+  ];
+}
+function cardGrid(x0,y0,cols,rows,cw,ch,gx,gy,label){
+  var out=[];
+  for(var r=0;r<rows;r++){
+    for(var c=0;c<cols;c++){
+      var x=x0+c*(cw+gx), y=y0+r*(ch+gy);
+      out.push(E('img',x,y,cw,ch*0.55,'',{caption:'Фото'}));
+      out.push(E('text',x,y+ch*0.58,cw,ch*0.18,'',{lines:2}));
+      out.push(E('pill',x,y+ch*0.80,cw*0.45,ch*0.16,'',{caption:'от ₸ ····'}));
+      if(r===0&&c===0&&label) out[out.length-3].label=label;
+    }
+  }
+  return out;
+}
+function filterRail(x0,y0,w,h,label){
+  return [
+    E('panel',x0,y0,w,h,label||'Фильтры'),
+    E('text',x0+1.5,y0+2,w-3,3,'',{lines:1,title:true}),
+    E('pill',x0+1.5,y0+6,w-3,3,'',{caption:'Категория ▾'}),
+    E('pill',x0+1.5,y0+10,w-3,3,'',{caption:'Город ▾'}),
+    E('pill',x0+1.5,y0+14,w-3,3,'',{caption:'Возраст ▾'}),
+    E('pill',x0+1.5,y0+18,w-3,3,'',{caption:'Цена ▾'}),
+    E('pill',x0+1.5,y0+22,w-3,3,'',{caption:'Дата ▾'}),
+    E('btn',x0+1.5,y0+27,w-3,3.4,'',{caption:'Сбросить',ghost:true})
+  ];
+}
+function reviewBlock(x0,y0,w,h){
+  return [
+    E('panel',x0,y0,w,h,'Отзыв'),
+    E('icon',x0+1.5,y0+1.5,4,4,'',{caption:'A'}),
+    E('text',x0+7,y0+2,w-9,3.5,'',{lines:1}),
+    E('star',x0+1.5,y0+7,10,3,'',{caption:'★★★★★'}),
+    E('text',x0+1.5,y0+11,w-3,h-13,'',{lines:3})
+  ];
+}
+
+/* ============================================================
+   SCREEN DEFINITIONS
+   ============================================================ */
+var SCREENS = [];
+function add(id,group,title,desc,kind,elements){
+  SCREENS.push({id:id,group:group,title:title,desc:desc,kind:kind,el:elements});
+}
+
+/* ---------------- 1. DISCOVERY / HOME ---------------- */
+add('home-desktop','1 · Discovery','Главная — Discover (desktop)',
+  'Три «двери» в продукт сразу видны на первом экране: тема, место, событие. Карта в hero, а не декоративное фото.',
+  'desktop', [].concat(
+    navDesktop(),
+    [
+      E('img',0,12.7,100,26,'Hero: карта-превью Казахстана',{caption:'КАРТА-HERO (интерактивный превью)'}),
+      E('text',6,16,40,6,'',{lines:2,title:true}),
+      E('input',6,24,34,4.2,'Поисковая строка hero','Куда идём? Домбра, Алматы, Наурыз…'),
+      E('btn',41,24,10,4.2,'',{caption:'Найти',primary:true}),
+      E('pill',6,29.5,16,3,'',{caption:'🔥 Сейчас в тренде'}),
+      E('pill',23,29.5,20,3,'',{caption:'📍 Рядом со мной'}),
+
+      E('text',4,41,30,3,'Подборки',{lines:1,title:true})
+    ],
+    cardGrid(4,45,4,1,22,20,2,0,'Карточка подборки'),
+    [ E('text',4,68,30,3,'Категории традиций',{lines:1,title:true}) ],
+    cardGrid(4,72,6,1,15,18,1.6,0,'Плитка категории')
+  ));
+
+add('home-mobile','1 · Discovery','Главная — Discover (mobile)',
+  'Мобайл: карта сворачивается в компактный превью-блок, ниже — вертикальная лента подборок (паттерн Airbnb).',
+  'mobile', [].concat(
+    [
+      E('icon',3,2,8,3.6,'Меню',{caption:'≡'}),
+      E('text',13,2.4,50,3,'',{lines:1,title:true}),
+      E('icon',88,2,9,3.6,'Язык',{caption:'RU'}),
+      E('input',4,7,92,6,'Поиск','Куда идём?'),
+      E('img',4,15,92,22,'Карта-превью',{caption:'КАРТА (тап → fullscreen)'}),
+      E('pill',4,39,28,3.4,'',{caption:'🔥 Тренды'}),
+      E('pill',34,39,30,3.4,'',{caption:'📍 Рядом'}),
+      E('text',4,45,40,3,'Подборки',{lines:1,title:true})
+    ],
+    cardGrid(4,49,2,1,44,20,4,0,''),
+    [E('text',4,72,40,3,'Категории',{lines:1,title:true})],
+    cardGrid(4,76,3,1,28,16,1.5,0,''),
+    tabBarMobile()
+  ));
+
+/* ---------------- 2. TRADITIONS ---------------- */
+add('traditions-catalog','2 · Традиции','Каталог традиций (/traditions)',
+  'Левая колонка — таксономия категорий (§3 спецификации), справа — сетка карточек с фильтрами сверху.',
+  'desktop', [].concat(
+    navDesktop(),
+    filterRail(3,15,17,45,'Категории (11)'),
+    [
+      E('text',23,15,30,3,'',{lines:1,title:true}),
+      E('pill',75,15,10,3.4,'',{caption:'Сетка'}),
+      E('pill',86,15,11,3.4,'',{caption:'Список'})
+    ],
+    cardGrid(23,20,3,3,20,17,2,2,'Карточка традиции')
+  ));
+
+add('tradition-detail','2 · Традиции','Страница традиции (/traditions/[slug])',
+  '16-блочная структура из §5.1 спецификации: hero → факты → история → медиа → карта → организации/мастера → цена/возраст → отзывы → FAQ → похожее → источники.',
+  'desktop', [].concat(
+    navDesktop(),
+    [
+      E('img',0,12.7,100,30,'Hero: фото/видео традиции + название на 3 языках',{caption:'HERO'}),
+      E('btn',90,15,8,3.6,'',{caption:'⇪ Поделиться'}),
+      E('btn',90,19,8,3.6,'',{caption:'♡ Сохранить'}),
+
+      E('panel',4,45,92,6,'Info-strip'),
+      E('pill',6,46.5,16,3,'',{caption:'✅ UNESCO'}),
+      E('pill',24,46.5,18,3,'',{caption:'Регион: Алматинская обл.'}),
+      E('pill',44,46.5,14,3,'',{caption:'Сезон: круглый год'}),
+      E('pill',60,46.5,16,3,'',{caption:'Возраст: 6+'}),
+
+      E('text',4,53,60,3,'Краткое описание',{lines:1,title:true}),
+      E('text',4,57,60,6,'',{lines:3}),
+
+      E('text',4,65,60,3,'История и происхождение',{lines:1,title:true}),
+      E('text',4,69,60,10,'',{lines:5}),
+      E('img',66,65,30,14,'Таймлайн эпох',{caption:'TIMELINE'})
+    ],
+    [
+      E('text',4,81,60,3,'Значение / Почему важно сохранить',{lines:1,title:true}),
+      E('text',4,85,60,7,'',{lines:4}),
+      E('text',4,93,90,3,'Интересные факты',{lines:1,title:true})
+    ],
+    cardGrid(4,97,4,1,22,10,1.5,0,'Карточка-факт'),
+    [
+      E('text',4,109,90,3,'Фотогалерея',{lines:1,title:true})
+    ],
+    cardGrid(4,113,6,1,15,10,1,0,''),
+    [
+      E('text',4,125,90,3,'Видео',{lines:1,title:true})
+    ],
+    cardGrid(4,129,3,1,30,14,1.6,0,''),
+    [
+      E('text',4,146,40,3,'Где можно научиться',{lines:1,title:true}),
+      E('img',4,150,45,20,'Мини-карта с пинами',{caption:'MAP'}),
+      E('panel',51,150,45,20,'Список организаций/мастеров'),
+    ],
+    cardGrid(52,152,1,3,43,5.5,0,0.7,''),
+    [
+      E('panel',4,172,92,8,'Агрегат: цена/возраст/расписание'),
+      E('text',6,174,20,4,'',{lines:2}),
+      E('text',30,174,20,4,'',{lines:2}),
+      E('text',54,174,20,4,'',{lines:2}),
+
+      E('text',4,182,40,3,'Отзывы',{lines:1,title:true})
+    ],
+    reviewBlock(4,186,44,20),
+    reviewBlock(50,186,44,20),
+    [
+      E('text',4,208,40,3,'Частые вопросы',{lines:1,title:true}),
+      E('panel',4,212,92,4,'',{caption:''}),
+      E('panel',4,217,92,4,'',{caption:''}),
+      E('panel',4,222,92,4,'',{caption:''}),
+
+      E('text',4,229,40,3,'Похожие традиции',{lines:1,title:true})
+    ],
+    cardGrid(4,233,4,1,22,14,2,0,''),
+    [
+      E('panel',4,249,92,7,'Источники и дата сверки'),
+      E('text',6,251,80,4,'gov.kz · unesco.org · nmrk.kz — сверено ДД.ММ.ГГГГ',{lines:1})
+    ]
+  ),{tall:true});
+
+/* ---------------- 3. MAP ---------------- */
+add('map-desktop','3 · Карта','Карта Казахстана — fullscreen (/map)',
+  'Кластеризованные пины, боковая панель по клику на регион/город, переключение слоёв, режим «Маршрут».',
+  'desktop', [].concat(
+    [
+      E('icon',1.5,2,3,4.3,'',{caption:'←'}),
+      E('input',6,2,30,4.3,'','Поиск по карте'),
+      E('pill',38,2,10,4.3,'',{caption:'Где учат'}),
+      E('pill',49,2,12,4.3,'',{caption:'Где увидеть'}),
+      E('pill',62,2,11,4.3,'',{caption:'Фестивали'}),
+      E('pill',74,2,14,4.3,'',{caption:'Ист. места'}),
+      E('btn',90,2,9,4.3,'',{caption:'Маршрут'}),
+
+      E('img',0,7.5,72,92.5,'Карта Казахстана: кластеры пинов',{caption:'MAP CANVAS'}),
+      E('icon',10,20,3,3,'',{caption:'●12'}),
+      E('icon',25,40,3,3,'',{caption:'●5'}),
+      E('icon',45,60,3,3,'',{caption:'●28'}),
+      E('icon',60,30,3,3,'',{caption:'●3'}),
+
+      E('panel',73,7.5,27,92.5,'Боковая панель: город'),
+      E('text',74.5,9,24,4,'',{lines:1,title:true}),
+      E('pill',74.5,14,12,3,'',{caption:'Все'}),
+      E('pill',87,14,12,3,'',{caption:'Сейчас 7д'}),
+    ],
+    cardGrid(74.5,19,1,4,24,16,0,1.5,'Карточка организации в панели')
+  ));
+
+add('map-mobile','3 · Карта','Карта — mobile bottom sheet',
+  'На мобильном боковая панель становится нижним bottom sheet (Google Maps/Airbnb паттерн), карта на весь экран сверху.',
+  'mobile', [
+    E('img',0,0,100,55,'Карта во весь экран',{caption:'MAP CANVAS'}),
+    E('icon',3,3,8,3.6,'',{caption:'←'}),
+    E('icon',88,3,9,3.6,'',{caption:'⚙ Слои'}),
+    E('icon',22,20,4,3,'',{caption:'●12'}),
+    E('icon',55,30,4,3,'',{caption:'●6'}),
+
+    E('panel',0,55,100,45,'Bottom sheet (draggable)'),
+    E('bar',44,56.5,12,1,'Хэндл'),
+    E('text',4,59,60,4,'',{lines:1,title:true}),
+    E('pill',4,64,20,3.2,'',{caption:'Где учат'}),
+    E('pill',26,64,22,3.2,'',{caption:'Где увидеть'}),
+    E('pill',50,64,20,3.2,'',{caption:'Фестивали'})
+  ].concat(cardGrid(4,69,2,2,44,13,4,3,'')));
+
+/* ---------------- 4. ORGANIZATIONS & MASTERS ---------------- */
+add('org-catalog','4 · Организации и мастера','Каталог организаций',
+  'Школы/клубы/музеи/этноаулы в едином листинге с фильтрами; тумблер список/карта справа.',
+  'desktop', [].concat(
+    navDesktop(),
+    filterRail(3,15,17,45,'Фильтры'),
+    [E('text',23,15,40,3,'Организации · 128 результатов',{lines:1,title:true})],
+    cardGrid(23,20,3,3,20,17,2,2,'')
+  ));
+
+add('org-profile','4 · Организации и мастера','Профиль организации (/organizations/[slug])',
+  'Experience-карточки, встроенный календарь доступности, отзывы, чекаут-CTA — паттерн Airbnb listing.',
+  'desktop', [].concat(
+    navDesktop(),
+    [
+      E('img',0,12.7,100,22,'Cover-фото организации',{caption:'COVER'}),
+      E('icon',6,30,10,10,'Лого/аватар',{caption:'LOGO'}),
+      E('text',18,32,40,6,'',{lines:2,title:true}),
+      E('pill',18,39,16,3,'',{caption:'🏛 Verified'}),
+      E('pill',35,39,14,3,'',{caption:'★ 4.8 (212)'}),
+      E('btn',85,33,10,4,'',{caption:'Связаться'}),
+
+      E('text',4,47,30,3,'О школе',{lines:1,title:true}),
+      E('text',4,51,60,8,'',{lines:4}),
+
+      E('text',4,61,40,3,'Experience-предложения',{lines:1,title:true})
+    ],
+    cardGrid(4,65,3,2,29,16,2,2,'Карточка Experience + цена + CTA «Забронировать»'),
+    [
+      E('text',4,102,30,3,'Расписание',{lines:1,title:true}),
+      E('img',4,106,92,12,'Календарь доступности (неделя/месяц)',{caption:'CALENDAR'}),
+      E('text',4,121,30,3,'Мастера школы',{lines:1,title:true})
+    ],
+    cardGrid(4,125,4,1,22,12,2,0,''),
+    [E('text',4,140,30,3,'Отзывы',{lines:1,title:true})],
+    reviewBlock(4,144,44,18),
+    reviewBlock(50,144,44,18)
+  ),{tall:true});
+
+add('master-catalog','4 · Организации и мастера','Каталог мастеров (/masters)',
+  'Отдельный листинг мастеров с фильтром по бейджу верификации (§7.3 спецификации).',
+  'desktop', [].concat(
+    navDesktop(),
+    filterRail(3,15,17,45,'Фильтры · Бейдж'),
+    [E('pill',23,15,20,3.4,'',{caption:'🏅 Official Master'}),
+     E('pill',44,15,24,3.4,'',{caption:'🏛 Verified by QM'})],
+    cardGrid(23,20,3,3,20,17,2,2,'Карточка мастера: фото + имя + традиция + бейдж')
+  ));
+
+add('master-profile','4 · Организации и мастера','Профиль мастера (/masters/[slug])',
+  'Персональная страница носителя традиции: история, «у кого учился» (генеалогия мастерства), работы, Experience.',
+  'desktop', [].concat(
+    navDesktop(),
+    [
+      E('img',4,15,26,30,'Портрет мастера',{caption:'PHOTO'}),
+      E('text',33,16,40,5,'',{lines:2,title:true}),
+      E('pill',33,23,20,3.4,'',{caption:'🏅 Official Master'}),
+      E('text',33,28,55,10,'',{lines:5}),
+      E('btn',33,40,16,4,'',{caption:'Записаться',primary:true}),
+
+      E('text',4,48,30,3,'Генеалогия мастерства',{lines:1,title:true}),
+      E('img',4,52,90,10,'«Учился у…» — визуальная цепочка',{caption:'LINEAGE'}),
+
+      E('text',4,65,30,3,'Работы / портфолио',{lines:1,title:true})
+    ],
+    cardGrid(4,69,6,1,15,14,1.6,0,''),
+    [E('text',4,86,30,3,'Experience этого мастера',{lines:1,title:true})],
+    cardGrid(4,90,3,1,29,16,2,0,'')
+  ));
+
+/* ---------------- 5. EXPERIENCES / SEARCH ---------------- */
+add('search-results','5 · Поиск и Experience','Результаты поиска (/search)',
+  'Универсальный мультиязычный поиск — смешанная выдача: традиции, организации, мастера, события.',
+  'desktop', [].concat(
+    navDesktop(),
+    [
+      E('text',4,15,50,3,'Результаты по запросу «домбра» · 34',{lines:1,title:true}),
+      E('pill',4,20,10,3.2,'',{caption:'Все'}),
+      E('pill',15,20,14,3.2,'',{caption:'Традиции'}),
+      E('pill',30,20,16,3.2,'',{caption:'Организации'}),
+      E('pill',47,20,12,3.2,'',{caption:'Мастера'}),
+      E('pill',60,20,12,3.2,'',{caption:'События'})
+    ],
+    cardGrid(4,25,4,3,22,17,2,2,'')
+  ));
+
+add('experience-detail','5 · Поиск и Experience','Страница Experience (/experiences/[slug])',
+  'Bookable-единица: конкретный мастер-класс/экскурсия/билет с прямым переходом в бронирование.',
+  'desktop', [].concat(
+    navDesktop(),
+    [
+      E('img',0,12.7,100,24,'Галерея фото Experience',{caption:'GALLERY'}),
+      E('text',4,39,55,4,'',{lines:1,title:true}),
+      E('pill',4,44,20,3,'',{caption:'★ 4.9 · Мастер: Verified'}),
+      E('text',4,49,55,12,'',{lines:6}),
+      E('text',4,63,55,3,'Что входит',{lines:1,title:true}),
+      E('text',4,67,55,8,'',{lines:4}),
+
+      E('panel',63,39,33,32,'Booking-виджет'),
+      E('text',65,41,20,3,'',{lines:1,title:true}),
+      E('pill',65,46,28,3.4,'',{caption:'Выбрать дату ▾'}),
+      E('pill',65,50.5,28,3.4,'',{caption:'Участники: 2 ▾'}),
+      E('divider',65,55.5,28,0.1),
+      E('text',65,57,28,3,'',{lines:1}),
+      E('btn',65,62,28,5,'',{caption:'Забронировать',primary:true}),
+
+      E('text',4,77,30,3,'Отзывы',{lines:1,title:true})
+    ],
+    reviewBlock(4,81,44,16)
+  ));
+
+/* ---------------- 6. KIDS ---------------- */
+add('kids-hub','6 · Дети и семья','Раздел «Для детей» (/kids)',
+  'Отдельная точка входа: лагеря, кружки, летние школы, семейные события — с фильтром по возрасту ребёнка.',
+  'desktop', [].concat(
+    navDesktop(),
+    [
+      E('img',0,12.7,100,16,'Hero: «Куда отдать ребёнка»',{caption:'HERO'}),
+      E('pill',4,31,20,3.4,'',{caption:'Лагеря'}),
+      E('pill',25,31,20,3.4,'',{caption:'Кружки'}),
+      E('pill',46,31,22,3.4,'',{caption:'Летние школы'}),
+      E('pill',69,31,25,3.4,'',{caption:'Семейные события'})
+    ],
+    filterRail(3,37,17,40,'Возраст ребёнка'),
+    cardGrid(23,37,3,3,20,15.5,2,1.5,'Карточка: доп.поля — программа дня, взрослый/ребёнок')
+  ));
+
+add('kids-camp-detail','6 · Дети и семья','Детский лагерь — детальная страница',
+  'Расширенная карточка Experience для camp: программа по дням, соотношение взрослый/ребёнок, что взять с собой.',
+  'desktop', [].concat(
+    navDesktop(),
+    [
+      E('img',0,12.7,100,20,'Фото лагеря',{caption:'GALLERY'}),
+      E('text',4,35,55,4,'',{lines:1,title:true}),
+      E('pill',4,40,20,3,'',{caption:'Возраст 7–12'}),
+      E('pill',25,40,24,3,'',{caption:'Взрослый:ребёнок 1:6'}),
+      E('text',4,45,55,3,'Программа по дням',{lines:1,title:true})
+    ],
+    cardGrid(4,49,1,4,55,6,0,1,''),
+    [
+      E('text',4,74,55,3,'Что взять с собой',{lines:1,title:true}),
+      E('text',4,78,55,6,'',{lines:3}),
+      E('panel',63,35,33,30,'Booking-виджет (родитель)'),
+      E('pill',65,38,28,3.4,'',{caption:'Профиль ребёнка ▾'}),
+      E('btn',65,50,28,5,'',{caption:'Записать ребёнка',primary:true})
+    ]
+  ));
+
+/* ---------------- 7. CALENDAR / EVENTS ---------------- */
+add('calendar-month','7 · Календарь','Культурный календарь — вид «Месяц» (/calendar)',
+  'Переключение Календарь/Лента, фильтр по региону/категории, подписка на уведомления.',
+  'desktop', [].concat(
+    navDesktop(),
+    [
+      E('pill',4,15,12,3.4,'',{caption:'Месяц'}),
+      E('pill',17,15,12,3.4,'',{caption:'Лента'}),
+      E('pill',33,15,16,3.4,'',{caption:'Регион ▾'}),
+      E('pill',50,15,18,3.4,'',{caption:'Категория ▾'}),
+      E('btn',88,15,9,3.4,'',{caption:'+ Подписка'}),
+      E('img',4,20,92,70,'Календарная сетка месяца с событиями-точками',{caption:'CALENDAR GRID'})
+    ]
+  ));
+
+add('calendar-feed','7 · Календарь','Культурный календарь — вид «Лента»',
+  'Хронологический список ближайших событий: фестивали, айтысы, турниры, выставки.',
+  'desktop', [].concat(
+    navDesktop(),
+    [
+      E('pill',4,15,12,3.4,'',{caption:'Месяц'}),
+      E('pill',17,15,12,3.4,'',{caption:'Лента'}),
+      E('text',4,20,10,4,'12 июл',{lines:1,title:true})
+    ],
+    cardGrid(16,20,1,1,80,10,0,0,''),
+    [E('text',4,32,10,4,'19 июл',{lines:1,title:true})],
+    cardGrid(16,32,1,1,80,10,0,0,''),
+    [E('text',4,44,10,4,'22 мар',{lines:1,title:true})],
+    cardGrid(16,44,1,1,80,10,0,0,'')
+  ));
+
+add('event-detail','7 · Календарь','Страница события (/calendar/[slug])',
+  'Фестиваль/айтыс/турнир: дата, место, программа, связанные традиции, покупка билета.',
+  'desktop', [].concat(
+    navDesktop(),
+    [
+      E('img',0,12.7,100,22,'Hero события',{caption:'HERO'}),
+      E('text',4,37,55,4,'',{lines:1,title:true}),
+      E('pill',4,42,20,3,'',{caption:'22–24 марта'}),
+      E('pill',25,42,20,3,'',{caption:'Тараз'}),
+      E('text',4,47,55,10,'',{lines:5}),
+      E('text',4,58,55,3,'Программа',{lines:1,title:true}),
+      E('text',4,62,55,10,'',{lines:5}),
+
+      E('panel',63,37,33,20,'Билеты'),
+      E('text',65,39,28,3,'',{lines:1}),
+      E('btn',65,50,28,5,'',{caption:'Купить билет',primary:true})
+    ]
+  ));
+
+/* ---------------- 8. CITIES ---------------- */
+add('city-profile','8 · Города','Культурный профиль города (/cities/[region]/[city])',
+  'Агрегированная страница: рейтинг «культурной активности», организации, события, традиции региона.',
+  'desktop', [].concat(
+    navDesktop(),
+    [
+      E('img',0,12.7,100,20,'Cover города',{caption:'COVER'}),
+      E('text',4,34,40,5,'',{lines:1,title:true}),
+      E('pill',4,40,26,3.4,'',{caption:'Индекс культ. активности: 78/100'}),
+      E('text',4,46,30,3,'Традиции региона',{lines:1,title:true})
+    ],
+    cardGrid(4,50,5,1,17.5,14,1.5,0,''),
+    [E('text',4,66,30,3,'Организации в городе',{lines:1,title:true})],
+    cardGrid(4,70,4,1,22,15,2,0,''),
+    [E('text',4,87,30,3,'Ближайшие события',{lines:1,title:true})],
+    cardGrid(4,91,3,1,29,12,2,0,'')
+  ));
+
+/* ---------------- 9. COLLECTIONS & GUIDE ---------------- */
+add('collections-list','9 · Подборки и AI-гид','Тематические подборки (/collections)',
+  'Редакционные подборки типа «7 традиций перед Наурызом».',
+  'desktop', [].concat(navDesktop(), [E('text',4,15,40,3,'Подборки',{lines:1,title:true})], cardGrid(4,20,3,3,29,20,2,2,'')));
+
+add('guide-chat','9 · Подборки и AI-гид','AI-гид — запрос (/guide)',
+  'Свободный текст или фильтры → обязательный шаг подтверждения intent перед построением маршрута (§7.1).',
+  'desktop', [].concat(
+    navDesktop(),
+    [
+      E('text',20,20,60,5,'',{lines:1,title:true,style:'text-align:center'}),
+      E('input',20,30,52,6,'','«Я в Алматы на 2 дня, был бы рад что-то с детьми…»'),
+      E('btn',73,30,7,6,'',{caption:'→'}),
+      E('pill',20,39,14,3.4,'',{caption:'Город ▾'}),
+      E('pill',36,39,14,3.4,'',{caption:'Даты ▾'}),
+      E('pill',52,39,18,3.4,'',{caption:'Состав группы ▾'}),
+      E('pill',72,39,14,3.4,'',{caption:'Бюджет ▾'}),
+
+      E('panel',20,48,60,10,'Подтверждение intent'),
+      E('text',22,50,50,3,'Правильно понял: Алматы, 2 дня, с детьми?',{lines:1}),
+      E('btn',22,54,10,3.4,'',{caption:'Да',primary:true}),
+      E('btn',34,54,14,3.4,'',{caption:'Уточнить'})
+    ]
+  ));
+
+add('guide-route','9 · Подборки и AI-гид','AI-гид — сгенерированный маршрут',
+  'Черновой маршрут по слотам времени из реального инвентаря; можно перетаскивать пункты и бронировать сразу.',
+  'desktop', [].concat(
+    navDesktop(),
+    [
+      E('text',4,15,40,3,'Ваш маршрут · Алматы · 2 дня',{lines:1,title:true}),
+      E('btn',80,15,17,3.6,'',{caption:'Опубликовать в сообщество'}),
+
+      E('panel',4,20,44,75,'День 1'),
+      E('text',6,22,20,3,'09:00',{lines:1}),
+      E('img',6,26,40,12,'Пункт 1',{caption:''}),
+      E('text',6,39,20,3,'12:30',{lines:1}),
+      E('img',6,43,40,12,'Пункт 2',{caption:''}),
+      E('text',6,56,20,3,'16:00',{lines:1}),
+      E('img',6,60,40,12,'Пункт 3',{caption:''}),
+
+      E('panel',51,20,44,75,'День 2'),
+      E('text',53,22,20,3,'10:00',{lines:1}),
+      E('img',53,26,40,12,'Пункт 1',{caption:''}),
+      E('text',53,39,20,3,'14:00',{lines:1}),
+      E('img',53,43,40,12,'Пункт 2',{caption:''})
+    ]
+  ));
+
+/* ---------------- 10. COMMUNITY ---------------- */
+add('community-hub','10 · Сообщество','Сообщество (/community)',
+  'UGC: фото, статьи, маршруты — визуально отделены от редакционного контента (§8.3 спецификации).',
+  'desktop', [].concat(
+    navDesktop(),
+    [
+      E('pill',4,15,14,3.4,'',{caption:'Все'}),
+      E('pill',19,15,14,3.4,'',{caption:'Фото'}),
+      E('pill',34,15,16,3.4,'',{caption:'Статьи'}),
+      E('pill',51,15,16,3.4,'',{caption:'Маршруты'}),
+      E('btn',88,15,9,3.4,'',{caption:'+ Добавить'})
+    ],
+    cardGrid(4,20,4,3,22,17,2,2,'UGC-карточка (визуальный бейдж «от сообщества»)')
+  ));
+
+add('community-story','10 · Сообщество','Статья сообщества (/community/stories/[slug])',
+  'Развёрнутая история опыта пользователя — редакторски отобранная, с чётким UGC-бейджем.',
+  'desktop', [].concat(
+    navDesktop(),
+    [
+      E('img',0,12.7,100,24,'Обложка статьи',{caption:'COVER'}),
+      E('pill',4,39,26,3.2,'',{caption:'✎ Материал от сообщества'}),
+      E('text',4,44,20,4,'',{lines:1,title:true}),
+      E('icon',4,50,4,4,'',{caption:'A'}),
+      E('text',10,51,20,3,'',{lines:1}),
+      E('text',4,56,60,20,'',{lines:10})
+    ]
+  ));
+
+add('user-profile','10 · Сообщество','Публичный профиль пользователя (/community/[user])',
+  'Опциональная публикация прогресса паспорта (§7.6) и опубликованных маршрутов/статей.',
+  'desktop', [].concat(
+    navDesktop(),
+    [
+      E('icon',4,15,10,10,'',{caption:'AVATAR'}),
+      E('text',16,17,30,5,'',{lines:1,title:true}),
+      E('pill',16,23,26,3.2,'',{caption:'Культурный паспорт: 14/48 публично'}),
+      E('text',4,30,30,3,'Опубликованные маршруты',{lines:1,title:true})
+    ],
+    cardGrid(4,34,3,1,29,14,2,0,''),
+    [E('text',4,50,30,3,'Статьи',{lines:1,title:true})],
+    cardGrid(4,54,3,1,29,14,2,0,'')
+  ));
+
+/* ---------------- 11. PASSPORT ---------------- */
+add('passport','11 · Паспорт и достижения','Культурный паспорт (/passport)',
+  'Чек-лист по категориям с прогресс-баром, авто/ручные отметки, достижения, публичный/приватный тумблер.',
+  'desktop', [].concat(
+    navDesktop(),
+    [
+      E('text',4,15,40,4,'',{lines:1,title:true}),
+      E('pill',60,15,20,3.4,'',{caption:'Публичный профиль: Вкл ⬤'}),
+
+      E('panel',4,21,44,30,'Танцы 2/12'),
+      E('bar',6,25,40,2,'Прогресс-бар'),
+      E('check',6,29,4,3,'',{caption:'✓'}),
+      E('text',11,29,30,3,'Кара жорға (подтверждено)',{lines:1}),
+      E('check',6,33,4,3,'',{caption:'○'}),
+      E('text',11,33,30,3,'Айтыс (отмечено вручную)',{lines:1}),
+
+      E('panel',51,21,44,30,'Ремёсла 1/8'),
+      E('bar',53,25,40,2,'Прогресс-бар'),
+      E('check',53,29,4,3,'',{caption:'✓'}),
+      E('text',58,29,30,3,'Войлоковаляние',{lines:1}),
+
+      E('text',4,54,30,3,'Достижения',{lines:1,title:true})
+    ],
+    cardGrid(4,58,5,1,17.5,14,1.5,0,'Бейдж-достижение'),
+    [
+      E('text',4,74,30,3,'Сертификаты от мастеров',{lines:1,title:true})
+    ],
+    cardGrid(4,78,4,1,22,12,2,0,'')
+  ));
+
+add('passport-mobile','11 · Паспорт и достижения','Паспорт — mobile',
+  'Мобильная версия: свайпаемые карточки категорий вместо двухколоночной сетки.',
+  'mobile', [].concat(
+    mobileTop('Мой паспорт'),
+    [
+      E('pill',60,9,35,3.4,'',{caption:'Публичный: Вкл'}),
+      E('panel',4,15,92,22,'Танцы 2/12'),
+      E('bar',6,19,88,2,''),
+      E('check',6,23,4,3,'',{caption:'✓'}),
+      E('text',11,23,70,3,'Кара жорға',{lines:1}),
+      E('panel',4,39,92,22,'Ремёсла 1/8'),
+      E('bar',6,43,88,2,''),
+      E('text',4,64,40,3,'Достижения',{lines:1,title:true})
+    ],
+    cardGrid(4,68,3,1,29,12,1.5,0,''),
+    tabBarMobile()
+  ));
+
+/* ---------------- 12. AUTH & ONBOARDING ---------------- */
+add('auth-login','12 · Auth и онбординг','Вход / регистрация',
+  'OAuth (Google/Apple) + локальный номер телефона (Kaspi-паттерн привычен пользователям РК).',
+  'mobile', [
+    E('text',10,10,80,6,'',{lines:1,title:true,style:'text-align:center'}),
+    E('btn',10,22,80,6,'',{caption:'Продолжить с Google'}),
+    E('btn',10,30,80,6,'',{caption:'Продолжить с Apple'}),
+    E('divider',10,40,80,0.1),
+    E('text',44,39,12,3,'или'),
+    E('input',10,45,80,6,'','Номер телефона'),
+    E('btn',10,53,80,6,'',{caption:'Получить код',primary:true}),
+    E('text',10,65,80,4,'',{lines:2,style:'text-align:center'})
+  ]);
+
+add('onboarding','12 · Auth и онбординг','Онбординг нового пользователя',
+  'Короткий флоу после первого входа: язык интерфейса → интересы → (опц.) детский профиль.',
+  'mobile', [
+    E('text',10,8,80,4,'Шаг 1 из 3',{lines:1}),
+    E('bar',10,13,80,1.5,'Прогресс'),
+    E('text',10,20,80,5,'',{lines:1,title:true}),
+    E('pill',10,30,25,5,'',{caption:'Қазақша'}),
+    E('pill',37,30,25,5,'',{caption:'Русский'}),
+    E('pill',64,30,25,5,'',{caption:'English'}),
+    E('btn',10,80,80,6,'',{caption:'Далее',primary:true})
+  ]);
+
+/* ---------------- 13. BOOKING FLOW ---------------- */
+add('booking-1','13 · Флоу бронирования','Шаг 1 — выбор слота',
+  '3-шаговый чекаут (паттерн Stripe): слот → данные → оплата.',
+  'mobile', [].concat(
+    mobileTop('Забронировать'),
+    [
+      E('pill',4,9,20,3,'',{caption:'① Слот'}),
+      E('pill',26,9,22,3,'',{caption:'② Данные'}),
+      E('pill',50,9,20,3,'',{caption:'③ Оплата'}),
+      E('img',4,15,92,18,'Мини-календарь дат',{caption:'CALENDAR'}),
+      E('text',4,35,30,3,'Свободное время',{lines:1,title:true})
+    ],
+    cardGrid(4,39,2,3,44,8,4,2,''),
+    [E('btn',4,80,92,6,'',{caption:'Далее',primary:true})]
+  ));
+
+add('booking-2','13 · Флоу бронирования','Шаг 2 — данные участников',
+  'Число участников, детские профили (если Experience для детей), контактные данные.',
+  'mobile', [].concat(
+    mobileTop('Забронировать'),
+    [
+      E('pill',4,9,20,3,'',{caption:'① Слот'}),
+      E('pill',26,9,22,3,'',{caption:'② Данные'}),
+      E('pill',50,9,20,3,'',{caption:'③ Оплата'}),
+      E('input',4,16,92,6,'','Имя'),
+      E('input',4,24,92,6,'','Телефон'),
+      E('text',4,33,40,3,'Участники',{lines:1,title:true}),
+      E('pill',4,37,40,4,'',{caption:'+ Добавить ребёнка (профиль)'}),
+      E('btn',4,80,92,6,'',{caption:'Далее',primary:true})
+    ]
+  ));
+
+add('booking-3','13 · Флоу бронирования','Шаг 3 — оплата и подтверждение',
+  'Итоговая сумма, комиссия платформы прозрачно не показывается клиенту (закладывается в цену), способ оплаты.',
+  'mobile', [].concat(
+    mobileTop('Оплата'),
+    [
+      E('pill',4,9,20,3,'',{caption:'① Слот'}),
+      E('pill',26,9,22,3,'',{caption:'② Данные'}),
+      E('pill',50,9,20,3,'',{caption:'③ Оплата'}),
+      E('panel',4,16,92,18,'Итог заказа'),
+      E('text',6,18,60,3,'',{lines:3}),
+      E('pill',4,37,44,5,'',{caption:'Kaspi Pay'}),
+      E('pill',50,37,44,5,'',{caption:'Карта (Stripe)'}),
+      E('btn',4,80,92,6,'',{caption:'Подтвердить и оплатить',primary:true})
+    ]
+  ));
+
+add('booking-confirm','13 · Флоу бронирования','Подтверждение брони',
+  'Финальный экран флоу — заполняет культурный паспорт автоматически (§7.6).',
+  'mobile', [
+    E('icon',40,20,20,10,'',{caption:'✓'}),
+    E('text',10,34,80,6,'',{lines:1,title:true,style:'text-align:center'}),
+    E('text',10,42,80,8,'',{lines:3,style:'text-align:center'}),
+    E('panel',10,55,80,15,'Детали брони'),
+    E('btn',10,75,80,6,'',{caption:'В календарь'}),
+    E('btn',10,83,80,6,'',{caption:'Готово',primary:true})
+  ]);
+
+/* ---------------- 14. ORG DASHBOARD (B2B) ---------------- */
+add('dash-overview','14 · Дашборд организации','Dashboard — обзор',
+  'Статистика просмотров/броней, роли команды (owner/staff), быстрые действия.',
+  'desktop', [
+    E('text',3,3,10,4,'Logo',{lines:1,title:true}),
+    E('pill',15,3.5,10,3.4,'',{caption:'Обзор'}),
+    E('pill',26,3.5,14,3.4,'',{caption:'Мои Experience'}),
+    E('pill',41,3.5,14,3.4,'',{caption:'Расписание'}),
+    E('pill',56,3.5,10,3.4,'',{caption:'Брони'}),
+    E('pill',67,3.5,10,3.4,'',{caption:'Отзывы'}),
+    E('icon',90,3,8,4.3,'',{caption:'Команда'}),
+    E('divider',0,9,100,0.1),
+
+    E('panel',3,13,22,14,'Просмотры · 30д'),
+    E('panel',27,13,22,14,'Брони · 30д'),
+    E('panel',51,13,22,14,'Выручка · 30д'),
+    E('panel',75,13,22,14,'Рейтинг'),
+
+    E('text',3,30,30,3,'Динамика броней',{lines:1,title:true}),
+    E('img',3,34,94,20,'График',{caption:'CHART'}),
+
+    E('text',3,57,30,3,'Последние отзывы',{lines:1,title:true})
+  ].concat(reviewBlock(3,61,44,16), reviewBlock(49,61,44,16)));
+
+add('dash-listings','14 · Дашборд организации','Dashboard — управление Experience',
+  'Таблица предложений с быстрым редактированием цены/расписания/статуса публикации.',
+  'desktop', [
+    E('text',3,3,10,4,'Logo',{lines:1,title:true}),
+    E('pill',15,3.5,10,3.4,'',{caption:'Обзор'}),
+    E('pill',26,3.5,14,3.4,'',{caption:'Мои Experience'}),
+    E('divider',0,9,100,0.1),
+    E('btn',85,13,12,4,'',{caption:'+ Создать',primary:true}),
+    E('panel',3,19,94,7,'Строка таблицы: Experience'),
+    E('panel',3,27,94,7,''),
+    E('panel',3,35,94,7,''),
+    E('panel',3,43,94,7,''),
+    E('text',5,20.5,20,3,'',{lines:1}),
+    E('pill',40,20.8,14,3,'',{caption:'Опубликовано'}),
+    E('pill',56,20.8,14,3,'',{caption:'от ₸ ····'}),
+    E('icon',88,20.5,4,4,'',{caption:'✎'})
+  ]);
+
+add('dash-schedule','14 · Дашборд организации','Dashboard — расписание/календарь',
+  'Управление слотами и вместимостью по каждому Experience.',
+  'desktop', [
+    E('text',3,3,10,4,'Logo',{lines:1,title:true}),
+    E('pill',41,3.5,14,3.4,'',{caption:'Расписание'}),
+    E('divider',0,9,100,0.1),
+    E('img',3,14,94,75,'Недельный календарь слотов',{caption:'SCHEDULE GRID'})
+  ]);
+
+/* ---------------- 15. FOR ORG / FOR MASTERS / MISC PAGES ---------------- */
+add('for-orgs','15 · B2B и статические','Лендинг «Для организаций» (/for-organizations)',
+  'B2B-конверсионная страница: ценность премиум-размещения, форма заявки.',
+  'desktop', [].concat(
+    navDesktop(),
+    [
+      E('text',10,18,60,6,'',{lines:2,title:true,style:'text-align:center'}),
+      E('btn',40,28,20,5,'',{caption:'Подать заявку',primary:true}),
+      E('text',10,38,26,3,'Premium-размещение',{lines:1,title:true}),
+      E('text',37,38,26,3,'Комиссия только за бронь',{lines:1,title:true}),
+      E('text',64,38,26,3,'Аналитика просмотров',{lines:1,title:true})
+    ]
+  ));
+
+add('for-masters','15 · B2B и статические','Заявка на верификацию мастера (/for-masters)',
+  'Форма подачи заявки: портфолио, документы, статус выплат (§9.2 — гейт верификации).',
+  'desktop', [].concat(
+    navDesktop(),
+    [
+      E('text',10,17,60,5,'',{lines:1,title:true}),
+      E('input',10,25,80,6,'','ФИО'),
+      E('input',10,33,80,6,'','Традиция, в которой вы мастер'),
+      E('panel',10,41,80,10,'Загрузка портфолио/документов'),
+      E('text',10,53,30,3,'Налоговый статус',{lines:1,title:true}),
+      E('pill',10,57,26,4,'',{caption:'Патент самозанятого'}),
+      E('pill',38,57,10,4,'',{caption:'ИП'}),
+      E('pill',50,57,24,4,'',{caption:'Агентская схема QM'}),
+      E('btn',10,65,20,5,'',{caption:'Отправить заявку',primary:true})
+    ]
+  ));
+
+add('sources-page','15 · B2B и статические','Страница источников (/sources)',
+  'Прозрачный список источников по каждой традиции — §14 спецификации.',
+  'desktop', [].concat(
+    navDesktop(),
+    [E('text',4,15,40,3,'Источники',{lines:1,title:true})],
+    cardGrid(4,20,1,4,92,7,0,1,'Строка: традиция → источник → дата сверки')
+  ));
+
+/* ---------------- 16. EMPTY / ERROR STATES ---------------- */
+add('state-empty','16 · Состояния','Пустое состояние (generic pattern)',
+  'Применяется везде: пустой каталог по фильтру, пустой паспорт, пустой dashboard нового партнёра.',
+  'desktop', [
+    E('img',40,25,20,20,'',{caption:'ILLUSTR.'}),
+    E('text',25,48,50,4,'',{lines:1,title:true,style:'text-align:center'}),
+    E('text',25,53,50,6,'',{lines:2,style:'text-align:center'}),
+    E('btn',40,62,20,5,'',{caption:'Основное действие',primary:true})
+  ]);
+
+add('state-error','16 · Состояния','Ошибка / сбой (generic pattern)',
+  'Что произошло + как исправить, без извинений интерфейса (голос интерфейса из §11 UX-принципов).',
+  'desktop', [
+    E('img',40,25,20,20,'',{caption:'⚠'}),
+    E('text',25,48,50,4,'',{lines:1,title:true,style:'text-align:center'}),
+    E('text',25,53,50,6,'',{lines:2,style:'text-align:center'}),
+    E('btn',40,62,20,5,'',{caption:'Повторить'})
+  ]);
+
+/* ============================================================
+   POPUPS & MODALS (rendered as overlay on a base screen)
+   ============================================================ */
+function baseTraditionBehind(){
+  return [].concat(navDesktop(), [E('img',0,12.7,100,30,'Hero',{caption:'HERO'})]);
+}
+add('modal-lang','17 · Попапы и модалки','Переключатель языка',
+  'Быстрый доступ из шапки на любой странице; независимость перевода по типу контента (§10.2).',
+  'desktop', [].concat(baseTraditionBehind(),
+    [E('overlay',0,0,100,100,'')],
+    [
+      E('modal',70,10,24,22,'Модалка'),
+      E('text',72,12,20,3,'Язык интерфейса',{lines:1,title:true}),
+      E('pill',72,17,20,3.4,'',{caption:'Қазақша'}),
+      E('pill',72,21,20,3.4,'',{caption:'Русский  ✓'}),
+      E('pill',72,25,20,3.4,'',{caption:'English'})
+    ]
+  ));
+
+add('modal-share','17 · Попапы и модалки','Модалка «Поделиться»',
+  '',
+  'desktop', [].concat(baseTraditionBehind(),
+    [E('overlay',0,0,100,100,'')],
+    [
+      E('modal',35,30,30,30,'Модалка'),
+      E('text',38,32,24,3,'Поделиться',{lines:1,title:true}),
+      E('icon',38,38,6,6,'',{caption:'Link'}),
+      E('icon',47,38,6,6,'',{caption:'WA'}),
+      E('icon',56,38,6,6,'',{caption:'TG'}),
+      E('input',38,48,24,4,'','qazaqmura.kz/…'),
+      E('btn',38,54,24,4,'',{caption:'Копировать'})
+    ]
+  ));
+
+add('modal-save','17 · Попапы и модалки','Модалка «Сохранить в коллекцию»',
+  '',
+  'desktop', [].concat(baseTraditionBehind(),
+    [E('overlay',0,0,100,100,'')],
+    [
+      E('modal',35,25,30,38,'Модалка'),
+      E('text',38,27,24,3,'Сохранить в',{lines:1,title:true}),
+      E('check',38,33,4,3,'',{caption:'☐'}),
+      E('text',43,33,18,3,'Хочу изучить',{lines:1}),
+      E('check',38,38,4,3,'',{caption:'☑'}),
+      E('text',43,38,18,3,'Для поездки в Алматы',{lines:1}),
+      E('btn',38,50,24,4,'',{caption:'+ Новая коллекция',ghost:true}),
+      E('btn',38,56,24,4,'',{caption:'Готово',primary:true})
+    ]
+  ));
+
+add('modal-filters-mobile','17 · Попапы и модалки','Фильтры — мобильная модалка',
+  'Полноэкранный modal на мобильном вместо боковой панели фильтров.',
+  'mobile', [
+    E('icon',4,3,9,4,'',{caption:'×'}),
+    E('text',30,3.5,40,4,'',{lines:1,title:true}),
+    E('divider',0,9,100,0.1),
+    E('text',4,13,30,3,'Категория',{lines:1,title:true}),
+    E('pill',4,17,25,4,'',{caption:'Музыка'}),
+    E('pill',31,17,25,4,'',{caption:'Ремёсла'}),
+    E('text',4,25,30,3,'Город',{lines:1,title:true}),
+    E('pill',4,29,92,4,'',{caption:'Алматы ▾'}),
+    E('text',4,37,30,3,'Возраст',{lines:1,title:true}),
+    E('bar',4,41,92,2,'Слайдер диапазона'),
+    E('btn',4,88,44,6,'',{caption:'Сбросить',ghost:true}),
+    E('btn',52,88,44,6,'',{caption:'Показать 34',primary:true})
+  ]);
+
+add('modal-gallery','17 · Попапы и модалки','Lightbox — фотогалерея',
+  'С указанием автора/источника (обязательное поле media в data model §5.2).',
+  'desktop', [
+    E('overlay',0,0,100,100,''),
+    E('img',15,10,70,72,'Полноразмерное фото',{caption:'PHOTO'}),
+    E('icon',3,3,6,5,'',{caption:'×'}),
+    E('icon',3,45,6,5,'',{caption:'‹'}),
+    E('icon',91,45,6,5,'',{caption:'›'}),
+    E('text',15,84,70,4,'Автор: … · Источник: nmrk.kz',{lines:1})
+  ]);
+
+add('modal-login','17 · Попапы и модалки','Модалка входа (при попытке забронировать без аккаунта)',
+  '',
+  'desktop', [].concat(baseTraditionBehind(),
+    [E('overlay',0,0,100,100,'')],
+    [
+      E('modal',35,20,30,45,'Модалка'),
+      E('text',38,22,24,4,'',{lines:1,title:true}),
+      E('btn',38,29,24,4.5,'',{caption:'Google'}),
+      E('btn',38,35,24,4.5,'',{caption:'Apple'}),
+      E('input',38,42,24,4.5,'','Телефон'),
+      E('btn',38,48,24,4.5,'',{caption:'Код',primary:true})
+    ]
+  ));
+
+add('modal-review','17 · Попапы и модалки','Модалка отзыва',
+  'Доступна только по завершённой брони — привязка к booking_id (§8.2).',
+  'desktop', [].concat(baseTraditionBehind(),
+    [E('overlay',0,0,100,100,'')],
+    [
+      E('modal',30,15,40,55,'Модалка'),
+      E('text',33,17,30,3,'',{lines:1,title:true}),
+      E('pill',33,22,10,4,'Бронь #4821',{caption:'✓ Бронь #4821'}),
+      E('star',33,28,26,4,'',{caption:'☆☆☆☆☆'}),
+      E('panel',33,34,34,16,'Текст отзыва'),
+      E('text',33,52,20,3,'Фото (опц.)',{lines:1}),
+      E('btn',33,58,34,4.5,'',{caption:'Опубликовать',primary:true})
+    ]
+  ));
+
+add('modal-dispute','17 · Попапы и модалки','Модалка «Сообщить о проблеме» (диспут)',
+  'Эскроу-логика §8.4: спор в окне payout_hold_hours до выплаты организации/мастеру.',
+  'desktop', [].concat(baseTraditionBehind(),
+    [E('overlay',0,0,100,100,'')],
+    [
+      E('modal',30,15,40,50,'Модалка'),
+      E('text',33,17,30,3,'Сообщить о проблеме',{lines:1,title:true}),
+      E('pill',33,23,15,3.4,'',{caption:'Не провели'}),
+      E('pill',50,23,15,3.4,'',{caption:'Не пришли'}),
+      E('pill',33,28,15,3.4,'',{caption:'Другое'}),
+      E('panel',33,34,34,14,'Описание'),
+      E('text',33,50,34,3,'Спор рассматривает саппорт вручную',{lines:1}),
+      E('btn',33,56,34,4.5,'',{caption:'Отправить',primary:true})
+    ]
+  ));
+
+add('modal-child-profile','17 · Попапы и модалки','Модалка «Добавить профиль ребёнка»',
+  'Юридический контроль: профиль ребёнка создаёт только родитель (§13.2).',
+  'desktop', [].concat(baseTraditionBehind(),
+    [E('overlay',0,0,100,100,'')],
+    [
+      E('modal',35,20,30,42,'Модалка'),
+      E('text',38,22,24,3,'Профиль ребёнка',{lines:1,title:true}),
+      E('input',38,27,24,4.5,'','Имя'),
+      E('input',38,33,24,4.5,'','Дата рождения'),
+      E('check',38,39,4,3,'',{caption:'☑'}),
+      E('text',43,39,20,4,'Согласие на публикацию фото (опц.)',{lines:2}),
+      E('btn',38,47,24,4.5,'',{caption:'Сохранить',primary:true})
+    ]
+  ));
+
+add('modal-cookie','17 · Попапы и модалки','Баннер согласия на данные',
+  'Нижний баннер, не блокирующий модал — сохраняет доступность контента.',
+  'desktop', [].concat(baseTraditionBehind(),
+    [
+      E('bar',0,88,100,12,'Баннер'),
+      E('text',3,90,55,7,'',{lines:2}),
+      E('btn',80,92,8,4,'',{caption:'Настройки'}),
+      E('btn',90,92,8,4,'',{caption:'Принять',primary:true})
+    ]
+  ));
+
+/* ---------------- 19. PROFILE & NOTIFICATIONS ---------------- */
+add('profile-settings','19 · Профиль и уведомления','Настройки профиля (/profile)',
+  'Личные данные, язык/тема интерфейса, привязанные детские профили, способы оплаты, уведомления — единая точка управления аккаунтом.',
+  'desktop', [].concat(
+    navDesktop(),
+    [
+      E('icon',4,15,8,8,'',{caption:'AVATAR'}),
+      E('btn',13,20,10,3.4,'',{caption:'Изменить'}),
+      E('text',4,26,30,3,'Личные данные',{lines:1,title:true}),
+      E('input',4,30,44,4.5,'','Имя'),
+      E('input',4,36,44,4.5,'','Телефон'),
+
+      E('text',4,44,30,3,'Язык и тема',{lines:1,title:true}),
+      E('pill',4,48,14,3.4,'',{caption:'Қазақша'}),
+      E('pill',19,48,14,3.4,'',{caption:'Русский ✓'}),
+      E('pill',34,48,14,3.4,'',{caption:'English'}),
+      E('pill',4,53,12,3.4,'',{caption:'☾ Тёмная'}),
+      E('pill',17,53,12,3.4,'',{caption:'☀ Светлая ✓'}),
+
+      E('text',4,60,30,3,'Детские профили',{lines:1,title:true}),
+      E('panel',4,64,44,10,'Профиль ребёнка'),
+      E('btn',4,76,20,4,'',{caption:'+ Добавить ребёнка',ghost:true}),
+
+      E('text',52,26,30,3,'Способы оплаты',{lines:1,title:true}),
+      E('panel',52,30,40,10,'Kaspi Pay · привязан'),
+      E('btn',52,42,20,4,'',{caption:'+ Добавить карту',ghost:true}),
+
+      E('text',52,50,30,3,'Уведомления',{lines:1,title:true}),
+      E('check',52,54,4,3,'',{caption:'☑'}),
+      E('text',57,54,35,3,'Напоминания о бронях',{lines:1}),
+      E('check',52,58,4,3,'',{caption:'☑'}),
+      E('text',57,58,35,3,'Подписки на календарь',{lines:1}),
+      E('check',52,62,4,3,'',{caption:'☐'}),
+      E('text',57,62,35,3,'Новости и подборки',{lines:1})
+    ]
+  ));
+
+add('notifications-inbox','19 · Профиль и уведомления','Центр уведомлений',
+  'Единая лента: напоминания о брони, обновления календарных подписок, статус диспута, ответы на отзывы.',
+  'desktop', [].concat(
+    navDesktop(),
+    [
+      E('text',4,15,40,3,'Уведомления',{lines:1,title:true}),
+      E('pill',4,20,10,3.2,'',{caption:'Все'}),
+      E('pill',15,20,14,3.2,'',{caption:'Брони'}),
+      E('pill',30,20,16,3.2,'',{caption:'Календарь'}),
+      E('pill',47,20,12,3.2,'',{caption:'Споры'})
+    ],
+    cardGrid(4,25,1,5,92,7,0,1.2,'Строка уведомления: иконка-тип + текст + время')
+  ));
+
+/* ---------------- 20. DASHBOARD — ADDITIONAL SCREENS ---------------- */
+add('dash-reviews','20 · Дашборд — доп. экраны','Dashboard — отзывы',
+  'Организация отвечает на отзывы публично; видна привязка к booking_id (§8.2) — нельзя ответить на неотзыв.',
+  'desktop', [
+    E('text',3,3,10,4,'Logo',{lines:1,title:true}),
+    E('pill',56,3.5,10,3.4,'',{caption:'Брони'}),
+    E('pill',67,3.5,10,3.4,'',{caption:'Отзывы'}),
+    E('divider',0,9,100,0.1),
+    E('text',3,13,20,3,'Рейтинг: 4.8 · 212 отзывов',{lines:1,title:true})
+  ].concat(
+    reviewBlock(3,18,44,18),
+    [E('panel',49,18,44,18,'Ответ организации'), E('text',51,20,40,10,'',{lines:5}), E('btn',51,32,16,3.4,'',{caption:'Опубликовать ответ'})],
+    reviewBlock(3,38,44,18),
+    [E('btn',49,42,20,3.6,'',{caption:'Ответить',ghost:true})]
+  ));
+
+add('dash-team','20 · Дашборд — доп. экраны','Dashboard — команда',
+  'Управление ролями внутри аккаунта организации: owner приглашает staff с ограниченным доступом (data model §5.2, team_members).',
+  'desktop', [
+    E('text',3,3,10,4,'Logo',{lines:1,title:true}),
+    E('divider',0,9,100,0.1),
+    E('text',3,14,30,3,'Команда',{lines:1,title:true}),
+    E('btn',80,14,16,4,'',{caption:'+ Пригласить',primary:true}),
+    E('panel',3,20,94,7,'Owner — полный доступ'),
+    E('panel',3,28,94,7,'Staff — управление расписанием'),
+    E('panel',3,36,94,7,'Staff — только просмотр отзывов'),
+    E('icon',90,21,4,4,'',{caption:'⋯'}),
+    E('icon',90,29,4,4,'',{caption:'⋯'}),
+    E('icon',90,37,4,4,'',{caption:'⋯'})
+  ]);
+
+add('master-dashboard','20 · Дашборд — доп. экраны','Личный кабинет мастера (независимый, без организации)',
+  'Мастер без юрлица: собственный календарь, статус верификации, статус налоговой схемы и окно ожидания выплаты (payout_hold_hours, §8.4/§9.2).',
+  'desktop', [
+    E('text',3,3,10,4,'Logo',{lines:1,title:true}),
+    E('pill',15,3.5,14,3.4,'',{caption:'Мои Experience'}),
+    E('pill',31,3.5,14,3.4,'',{caption:'Расписание'}),
+    E('pill',47,3.5,12,3.4,'',{caption:'Выплаты'}),
+    E('divider',0,9,100,0.1),
+
+    E('panel',3,13,30,10,'Статус верификации: 🏅 Official Master'),
+    E('panel',35,13,30,10,'Налоговый статус: Агентская схема QM'),
+    E('panel',67,13,30,10,'Ближайшая выплата: через 18ч (hold)'),
+
+    E('text',3,26,30,3,'Ближайшие брони',{lines:1,title:true})
+  ].concat(cardGrid(3,30,3,1,29,15,2,0,''),
+    [E('text',3,48,30,3,'История выплат',{lines:1,title:true})],
+    cardGrid(3,52,1,3,94,6,0,1,'Строка: дата · Experience · сумма · статус (в ожидании/выплачено)')
+  ));
+
+/* ---------------- 21. СТАТИЧЕСКИЕ И ПРАВОВЫЕ ---------------- */
+add('about-page','21 · Статические и правовые','О проекте (/about)',
+  'Миссия платформы, принцип "знание → действие" из §1, ссылка на источники и партнёров.',
+  'desktop', [].concat(
+    navDesktop(),
+    [
+      E('text',15,17,70,6,'',{lines:2,title:true,style:'text-align:center'}),
+      E('text',20,28,60,10,'',{lines:5,style:'text-align:center'}),
+      E('text',10,42,25,3,'Миссия',{lines:1,title:true}),
+      E('text',38,42,25,3,'Как это устроено',{lines:1,title:true}),
+      E('text',66,42,25,3,'Партнёры и источники',{lines:1,title:true})
+    ]
+  ));
+
+add('faq-page','21 · Статические и правовые','Частые вопросы (/faq)',
+  'Общие вопросы о платформе (не FAQ конкретной традиции — тот отдельно на странице традиции, §5.1).',
+  'desktop', [].concat(
+    navDesktop(),
+    [E('text',4,15,40,3,'Частые вопросы',{lines:1,title:true}),
+     E('pill',4,20,20,3.4,'',{caption:'Бронирование'}),
+     E('pill',26,20,20,3.4,'',{caption:'Для организаций'}),
+     E('pill',48,20,16,3.4,'',{caption:'Для мастеров'})],
+    cardGrid(4,26,1,6,92,6,0,1,'Аккордеон-вопрос')
+  ));
+
+add('contact-page','21 · Статические и правовые','Контакты (/contact)',
+  'Форма обращения + прямые каналы для организаций/мастеров/прессы.',
+  'desktop', [].concat(
+    navDesktop(),
+    [
+      E('input',10,20,40,6,'','Имя'),
+      E('input',10,28,40,6,'','Email'),
+      E('panel',10,36,40,14,'Сообщение'),
+      E('btn',10,52,16,5,'',{caption:'Отправить',primary:true}),
+      E('panel',55,20,40,36,'Прямые контакты: организации / мастера / пресса / поддержка')
+    ]
+  ));
+
+add('legal-refund','21 · Статические и правовые','Политика возврата (/legal/refund-policy)',
+  'Единая политика возврата, на которую ссылается §8.4 спецификации; исключения — на уровне конкретной Experience.',
+  'desktop', [].concat(
+    navDesktop(),
+    [E('text',4,15,50,3,'Политика возврата и отмены',{lines:1,title:true})],
+    cardGrid(4,20,1,5,92,7,0,1.2,'Раздел политики (заголовок + текст)')
+  ));
+
+add('page-404','21 · Статические и правовые','Страница 404',
+  'Не найдено — интерфейс объясняет, что произошло, и предлагает действие, без извинений (голос интерфейса, §11).',
+  'desktop', [
+    E('text',35,30,30,10,'404',{lines:1,title:true,style:'text-align:center;font-size:34px'}),
+    E('text',25,45,50,5,'',{lines:1,style:'text-align:center'}),
+    E('btn',40,55,20,5,'',{caption:'На главную',primary:true})
+  ]);
+
+/* ---------------- 22. ПОИСК — АВТОПОДСКАЗКИ ---------------- */
+add('search-autocomplete','22 · Поиск — автоподсказки','Автоподсказки при вводе (dropdown под global search)',
+  'Мультиязычная нормализация в реальном времени: запрос "Домбра" сразу показывает совпадение и по алиасам ("Dombra", "Домбыра") — §10.4.',
+  'desktop', [].concat(
+    navDesktop(),
+    [
+      E('panel',14,12.8,40,34,'Dropdown автоподсказок'),
+      E('text',15,14,20,3,'Традиции',{lines:1,title:true}),
+      E('img',15,18,6,4,'',{caption:''}),
+      E('text',22,18,28,4,'Домбра (также: Dombra, Домбыра)',{lines:1}),
+      E('img',15,23,6,4,'',{caption:''}),
+      E('text',22,23,28,4,'Домбыра — қоңыр ән',{lines:1}),
+      E('divider',15,29,38,0.1),
+      E('text',15,31,20,3,'Организации',{lines:1,title:true}),
+      E('img',15,35,6,4,'',{caption:''}),
+      E('text',22,35,28,4,'Школа домбры "Сарын"',{lines:1}),
+      E('divider',15,41,38,0.1),
+      E('text',15,43,20,3,'Мастера',{lines:1,title:true}),
+      E('img',15,47,6,4,'',{caption:''}),
+      E('text',22,47,28,4,'Асхат Т. — 🏅 Official Master',{lines:1})
+    ]
+  ));
+
+/* ---------------- 23. МОБИЛЬНЫЕ ВЕРСИИ КЛЮЧЕВЫХ ЭКРАНОВ ---------------- */
+add('tradition-detail-mobile','23 · Мобильные версии ключевых экранов','Страница традиции — mobile',
+  'Тот же 16-блочный контент (§5.1), но вертикальный поток одной колонкой, карта и организации — свайпаемые карточки.',
+  'mobile', [].concat(
+    mobileTop('', {back:true, action:'⇪'}),
+    [
+      E('img',0,8,100,26,'Hero',{caption:'HERO'}),
+      E('text',4,35,70,5,'',{lines:1,title:true}),
+      E('pill',4,41,20,3,'',{caption:'✅ UNESCO'}),
+      E('pill',26,41,20,3,'',{caption:'6+'}),
+      E('text',4,46,92,10,'',{lines:5}),
+      E('text',4,58,40,3,'История',{lines:1,title:true}),
+      E('text',4,62,92,8,'',{lines:4}),
+      E('text',4,72,40,3,'Где научиться',{lines:1,title:true}),
+      E('img',4,76,92,16,'Мини-карта',{caption:'MAP'})
+    ],
+    cardGrid(4,93,1,1,92,14,0,0,'Карточка организации (свайп дальше)'),
+    tabBarMobile()
+  ),{tall:true});
+
+add('experience-detail-mobile','23 · Мобильные версии ключевых экранов','Experience — mobile',
+  'Booking-виджет становится закреплённой нижней панелью (sticky CTA) вместо боковой колонки.',
+  'mobile', [].concat(
+    mobileTop('', {back:true, action:'⇪'}),
+    [
+      E('img',0,8,100,24,'Галерея',{caption:'GALLERY'}),
+      E('text',4,33,80,5,'',{lines:1,title:true}),
+      E('pill',4,39,40,3,'',{caption:'★ 4.9 · Мастер: Verified'}),
+      E('text',4,44,92,14,'',{lines:7}),
+      E('text',4,60,40,3,'Отзывы',{lines:1,title:true})
+    ],
+    reviewBlock(4,64,92,18),
+    [
+      E('panel',0,88,100,12,'Sticky booking-панель'),
+      E('text',4,91,30,3,'',{lines:1,title:true}),
+      E('btn',60,90,36,7,'',{caption:'Забронировать',primary:true})
+    ]
+  ));
+
+add('org-profile-mobile','23 · Мобильные версии ключевых экранов','Профиль организации — mobile',
+  'Experience-карточки в горизонтальном свайпе, календарь доступности — компактный виджет.',
+  'mobile', [].concat(
+    mobileTop('', {back:true, action:'⇪'}),
+    [
+      E('img',0,8,100,20,'Cover',{caption:'COVER'}),
+      E('icon',4,25,14,7,'',{caption:'LOGO'}),
+      E('text',20,26,60,5,'',{lines:1,title:true}),
+      E('pill',20,32,20,3,'',{caption:'🏛 Verified'}),
+      E('text',4,40,40,3,'Experience',{lines:1,title:true})
+    ],
+    cardGrid(4,44,2,2,44,16,4,3,''),
+    [E('text',4,78,40,3,'Отзывы',{lines:1,title:true})],
+    reviewBlock(4,82,92,14)
+  ),{tall:true});
+
+/* ---------------- 24. МОДЕРАЦИЯ (внутренний интерфейс) ---------------- */
+add('moderation-queue','24 · Модерация (внутренний интерфейс)','Очередь модерации UGC',
+  'Внутренний инструмент команды платформы (§8.3): контент с несовершеннолетними — отдельная усиленная очередь, без auto-publish.',
+  'desktop', [
+    E('text',3,3,20,4,'QM · Admin',{lines:1,title:true}),
+    E('divider',0,9,100,0.1),
+    E('pill',3,13,16,3.4,'',{caption:'Все · 48'}),
+    E('pill',20,13,20,3.4,'',{caption:'⚠ С детьми · 6'}),
+    E('pill',41,13,18,3.4,'',{caption:'Auto-flagged · 11'}),
+
+    E('panel',3,19,94,7,'Заявка на модерацию: фото, tradition="Кокпар"'),
+    E('btn',80,20,7,4,'',{caption:'✓',primary:true}),
+    E('btn',88,20,7,4,'',{caption:'✕'}),
+
+    E('panel',3,27,94,7,'⚠ Содержит несовершеннолетних — требует ручной проверки'),
+    E('btn',80,28,7,4,'',{caption:'✓',primary:true}),
+    E('btn',88,28,7,4,'',{caption:'✕'}),
+
+    E('panel',3,35,94,7,'Статья: "Неделя войлоковаляния в Талгаре"'),
+    E('btn',80,36,7,4,'',{caption:'✓',primary:true}),
+    E('btn',88,36,7,4,'',{caption:'✕'})
+  ]);
+
+/* ============================================================
+   FLOWS (step sequences)
+   ============================================================ */
+var FLOWS = [
+  {
+    id:'flow-onboarding', title:'Флоу: онбординг нового пользователя',
+    steps:[
+      ['Открыл сайт/приложение','Discover без авторизации, полный доступ к просмотру'],
+      ['Выбор языка','KK / RU / EN — влияет на весь дальнейший интерфейс'],
+      ['Интересы','Опциональные чекбоксы категорий — влияют на подборки'],
+      ['(опц.) Профиль ребёнка','Только если далее планирует бронь для ребёнка'],
+      ['Discover персонализирован','Подборки уже фильтрованы по интересам']
+    ]
+  },
+  {
+    id:'flow-booking', title:'Флоу: бронирование Experience',
+    steps:[
+      ['Страница традиции','Клик по организации/мастеру в блоке "Где научиться"'],
+      ['Профиль организации/мастера','Выбор конкретного Experience'],
+      ['Шаг 1 — Слот','Выбор даты и времени из реальной вместимости'],
+      ['Шаг 2 — Данные','Участники, детский профиль при необходимости'],
+      ['Шаг 3 — Оплата','Kaspi Pay / карта, сумма в KZT'],
+      ['Подтверждение','Автозаполнение культурного паспорта, событие в календарь']
+    ]
+  },
+  {
+    id:'flow-master-verify', title:'Флоу: верификация мастера',
+    steps:[
+      ['/for-masters — заявка','ФИО, традиция, портфолио/документы'],
+      ['Указание налогового статуса','Патент / ИП / агентская схема — гейт для будущих выплат'],
+      ['Модерация платформой','Ручная проверка портфолио и документов'],
+      ['Присвоение бейджа','Verified by QM или Official Master (внешнее подтверждение)'],
+      ['Публичный профиль активен','/masters/[slug], можно создавать Experience']
+    ]
+  },
+  {
+    id:'flow-ai-guide', title:'Флоу: AI-гид',
+    steps:[
+      ['Запрос свободным текстом','Или быстрые фильтры город/даты/бюджет'],
+      ['LLM извлекает параметры','Только NLU-слой, не источник фактов'],
+      ['Шаг подтверждения','"Правильно понял: …?" — до похода в базу'],
+      ['Запрос к API поиска','Реальные доступные Experience/Event на даты'],
+      ['Черновой маршрут','Редактируемый, с прямым бронированием'],
+      ['(опц.) Публикация','В /community/routes как маршрут другого пользователя']
+    ]
+  },
+  {
+    id:'flow-northstar', title:'Флоу: North Star — "понимание → действие"',
+    steps:[
+      ['Просмотр страницы традиции','Человек узнаёт, что означает традиция (§5.1)'],
+      ['Клик "Где научиться"','Переход к организациям/мастерам на карте или в списке'],
+      ['Профиль организации/мастера','Оценка доверия по бейджам (§8.1) и отзывам'],
+      ['Выбор Experience','Конкретное занятие/экскурсия/билет'],
+      ['Бронирование','3-шаговый чекаут (см. флоу бронирования)'],
+      ['Визит состоялся','Метрика North Star засчитана; паспорт обновлён (§7.6)']
+    ]
+  },
+  {
+    id:'flow-ugc-moderation', title:'Флоу: модерация пользовательского контента',
+    steps:[
+      ['Публикация фото/статьи/маршрута','Из /community или карточки Experience после визита'],
+      ['Auto-flagging','Проверка по ключевым словам и наличию несовершеннолетних'],
+      ['Разделение очереди','Обычная очередь vs усиленная (contains_minors=true, §13.2)'],
+      ['Human review','Модератор одобряет/отклоняет — auto-publish запрещён'],
+      ['Публикация с UGC-бейджем','Визуально отделено от редакционного контента (§8.3)']
+    ]
+  },
+  {
+    id:'flow-payout', title:'Флоу: выплата мастеру (эскроу-логика)',
+    steps:[
+      ['Experience завершён','Организация/мастер отмечает занятие проведённым'],
+      ['Старт payout_hold_hours','Окно ожидания перед выплатой (§8.4)'],
+      ['Проверка на диспут','Если поступила жалоба — выплата приостанавливается'],
+      ['Проверка налогового статуса','Патент / ИП / агентская схема QM (§9.2) — гейт'],
+      ['Выплата после окончания hold','Средства переводятся, статус в дашборде мастера обновлён']
+    ]
+  }
+];
+
+/* ============================================================
+   RENDER APP
+   ============================================================ */
+var groups = [];
+SCREENS.forEach(function(s){ if(groups.indexOf(s.group)===-1) groups.push(s.group); });
+
+function buildNav(){
+  var html='';
+  groups.forEach(function(g){
+    html+='<div class="group-title">'+g+'</div>';
+    SCREENS.filter(function(s){return s.group===g;}).forEach(function(s){
+      html+='<div class="nav-item" data-id="'+s.id+'"><span class="n">'+(s.kind==='mobile'?'M':'D')+'</span>'+s.title+'</div>';
+    });
+  });
+  html+='<div class="group-title">18 · Флоу</div>';
+  FLOWS.forEach(function(f){
+    html+='<div class="nav-item" data-id="'+f.id+'"><span class="n">→</span>'+f.title.replace('Флоу: ','')+'</div>';
+  });
+  document.getElementById('navtree').innerHTML=html;
+}
+
+function showScreen(id){
+  document.querySelectorAll('.nav-item').forEach(function(n){n.classList.toggle('active', n.getAttribute('data-id')===id);});
+  var s = SCREENS.find(function(x){return x.id===id;});
+  var main = document.getElementById('main');
+  if(s){
+    main.innerHTML =
+      '<div class="crumbs">'+s.group+'</div>'+
+      '<div class="screen-title">'+s.title+'</div>'+
+      '<div class="screen-desc">'+s.desc+'</div>'+
+      '<div class="frame-wrap"><div class="frame-shell"><div class="fname">'+(s.kind==='mobile'?'Mobile · 375px':'Desktop · 1280px')+'</div>'+
+      frameHtml(s.kind, s.el)+
+      '</div></div>';
+    return;
+  }
+  var f = FLOWS.find(function(x){return x.id===id;});
+  if(f){
+    var stepsHtml = f.steps.map(function(st,i){
+      return '<div class="flow-step"><div class="mini">'+
+        '<div class="wf-el wf-text" style="left:6%;top:8%;width:88%;height:70%"><div class="wf-text" style="height:100%"><div class="ln title" style="width:70%"></div><div class="ln" style="width:90%"></div><div class="ln" style="width:75%"></div></div></div>'+
+        '<div class="wf-el wf-btn" style="left:6%;top:82%;width:40%;height:12%">Шаг '+(i+1)+'</div>'+
+        '</div><div class="cap">'+st[0]+'</div><div class="sub">'+st[1]+'</div></div>'+
+        (i<f.steps.length-1?'<div class="flow-arrow">→</div>':'');
+    }).join('');
+    main.innerHTML =
+      '<div class="crumbs">18 · Флоу · Сквозной сценарий</div>'+
+      '<div class="screen-title">'+f.title+'</div>'+
+      '<div class="screen-desc">Каждый шаг — отдельный экран из левого меню; здесь — последовательность целиком, для проверки логики флоу end-to-end.</div>'+
+      '<div class="flow-wrap"><div class="flow">'+stepsHtml+'</div></div>';
+  }
+}
+
+document.addEventListener('click', function(e){
+  var item = e.target.closest('.nav-item');
+  if(item) showScreen(item.getAttribute('data-id'));
+});
+
+buildNav();
+showScreen(SCREENS[0].id);
+</script>
+</body>
+</html>
