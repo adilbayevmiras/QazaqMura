@@ -1,0 +1,41 @@
+:root {
+  --qm-paper: #f3f4f1;
+  --qm-surface: #ffffff;
+  --qm-ink-900: #1b1e24;
+  --qm-ink-600: #585d66;
+  --qm-line: #dddfda;
+  --qm-primary: #2a4a82;
+  --qm-accent: #a87c3b;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--qm-paper);
+  color: var(--qm-ink-900);
+  font-family: Arial, sans-serif;
+}
+
+.qm-button {
+  width: fit-content;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  padding: 12px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.qm-button-primary {
+  background: var(--qm-primary);
+  color: white;
+}
+
+.qm-button-secondary {
+  background: var(--qm-surface);
+  color: var(--qm-primary);
+  border-color: var(--qm-line);
+}
