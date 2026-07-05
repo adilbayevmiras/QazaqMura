@@ -39,3 +39,11 @@ body {
   color: var(--qm-primary);
   border-color: var(--qm-line);
 }
+.qm-card {
+  background: white;
+  border-radius: 20px;
+  padding: 24px;
+  border: 1px solid var(--qm-line);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.05);
+  max-width: 420px;
+}

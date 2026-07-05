@@ -1,20 +1,43 @@
-import { Button } from '@qazaqmura/ui';
+import { Button, Card } from '@qazaqmura/ui';
 
 export default function HomePage() {
   return (
     <main
       style={{
-        padding: '40px',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '16px',
+        padding: '60px',
       }}
     >
-      <h1>Qazaq Mura</h1>
+      <h1
+        style={{
+          fontSize: '56px',
+          marginBottom: '16px',
+        }}
+      >
+        Qazaq Mura
+      </h1>
 
-      <p>Phase 1 Design System</p>
+      <p
+        style={{
+          maxWidth: '700px',
+          color: '#585D66',
+          marginBottom: '32px',
+        }}
+      >
+        Цифровая платформа по сохранению и популяризации
+        культурного наследия Казахстана.
+      </p>
 
-      <Button>Тестовая кнопка</Button>
+      <Card>
+        <h2>Добро пожаловать</h2>
+
+        <p>
+          Первая версия дизайн-системы успешно подключена.
+        </p>
+
+        <Button>
+          Исследовать наследие
+        </Button>
+      </Card>
     </main>
   );
 }
